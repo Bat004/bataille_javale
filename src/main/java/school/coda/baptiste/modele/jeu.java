@@ -1,4 +1,7 @@
 package school.coda.baptiste.modele;
 
-public class jeu {
+public enum jeu {
+    PLACEMENT,
+    COMBAT,
+    TERMINE
 }
