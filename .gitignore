@@ -36,4 +36,10 @@ build/
 .vscode/
 
 ### Mac OS ###
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+
+target
+>>>>>>> 5187d8b (structure)
