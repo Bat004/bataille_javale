@@ -1,4 +1,6 @@
 package school.coda.baptiste.modele;
 
-public class orientation {
+public enum orientation {
+    HORIZONTALE,
+    VERTICALE
 }

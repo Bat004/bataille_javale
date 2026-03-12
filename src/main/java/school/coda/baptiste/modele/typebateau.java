@@ -1,6 +1,6 @@
 package school.coda.baptiste.modele;
 
-public enum TypeBateau {
+public enum typebateau {
     PORTE_AVIONS("Porte-avions", 5),
     CUIRASSE("Cuirassé", 4),
     DESTROYER("Destroyer", 3),
@@ -10,7 +10,7 @@ public enum TypeBateau {
     private final String nomAffiche;
     private final int taille;
 
-    TypeBateau(String nomAffiche, int taille) {
+    typebateau(String nomAffiche, int taille) {
         this.nomAffiche = nomAffiche;
         this.taille = taille;
     }
