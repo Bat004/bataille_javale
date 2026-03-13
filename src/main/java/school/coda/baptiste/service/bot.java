@@ -50,6 +50,6 @@ public class bot {
         }
 
         Collections.shuffle(positionsDisponibles, random);
-        return positionsDisponibles.getFirst();
+        return positionsDisponibles.get(0);
     }
 }

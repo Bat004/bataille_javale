@@ -22,13 +22,18 @@ public class resultat {
     }
 
     public String getMessage() {
-        return switch (typeResultat) {
-            case RATE -> "Manqué";
-            case TOUCHE -> "Touché";
-            case COULE -> "Touché-coulé : " + (bateauCoule != null ? bateauCoule.getNomAffiche() : "");
-            case DEJA_TIRE -> "Case déjà visée";
-            case INVALIDE -> "Position invalide";
-        };
+        if (typeResultat == typeresultat.RATE) {
+            return "Manqué";
+        } else if (typeResultat == typeresultat.TOUCHE) {
+            return "Touché";
+        } else if (typeResultat == typeresultat.COULE) {
+            return "Touché-coulé : " + (bateauCoule != null ? bateauCoule.getNomAffiche() : "");
+        } else if (typeResultat == typeresultat.DEJA_TIRE) {
+            return "Case déjà visée";
+        } else if (typeResultat == typeresultat.INVALIDE) {
+            return "Position invalide";
+        }
+        return "";
     }
 
     public static resultat rate() {

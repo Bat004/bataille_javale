@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.*;
@@ -20,18 +22,21 @@ import school.coda.baptiste.service.jeu;
 
 public class placement {
 
-    private static final int TAILLE_CELLULE = 46;
+    private static final int TAILLE_CELLULE_BASE = 46;
 
     private final Stage stage;
     private final jeu partieJeu;
 
     private typebateau bateauSelectionne;
     private orientation orientationSelectionnee = orientation.HORIZONTALE;
+    private int tailleGrille = 10;
+    private int tailleCell = TAILLE_CELLULE_BASE;
 
-    private final Rectangle[][] cellules = new Rectangle[10][10];
+    private Rectangle[][] cellules;
     private Label labelStatut;
     private Button boutonDemarrer;
     private VBox listeBateaux;
+    private VBox zoneGrille;
 
     public placement(Stage stage) {
         this(stage, new jeu("Joueur"));
@@ -83,7 +88,8 @@ public class placement {
     // ── Zone centrale (grille + panneau) ─────────────────────────────────────
 
     private HBox creerZoneCentrale() {
-        HBox zone = new HBox(30, creerGrille(), creerPanneau());
+        zoneGrille = creerGrille();
+        HBox zone = new HBox(30, zoneGrille, creerPanneau());
         zone.setAlignment(Pos.TOP_CENTER);
         return zone;
     }
@@ -91,20 +97,25 @@ public class placement {
     // ── Grille ───────────────────────────────────────────────────────────────
 
     private VBox creerGrille() {
+        cellules = new Rectangle[tailleGrille][tailleGrille];
+        return genererGrille();
+    }
+
+    private VBox genererGrille() {
         GridPane grille = new GridPane();
         grille.setHgap(2);
         grille.setVgap(2);
 
-        for (int col = 0; col < 10; col++) {
+        for (int col = 0; col < tailleGrille; col++) {
             grille.add(labelEntete(String.valueOf(col + 1)), col + 1, 0);
         }
-        for (int ligne = 0; ligne < 10; ligne++) {
+        for (int ligne = 0; ligne < tailleGrille; ligne++) {
             grille.add(labelEntete(String.valueOf((char) ('A' + ligne))), 0, ligne + 1);
         }
 
-        for (int ligne = 0; ligne < 10; ligne++) {
-            for (int col = 0; col < 10; col++) {
-                Rectangle rect = new Rectangle(TAILLE_CELLULE, TAILLE_CELLULE);
+        for (int ligne = 0; ligne < tailleGrille; ligne++) {
+            for (int col = 0; col < tailleGrille; col++) {
+                Rectangle rect = new Rectangle(tailleCell, tailleCell);
                 rect.setFill(Color.WHITE);
                 rect.setStroke(Color.web("#dddddd"));
                 rect.setStrokeWidth(1);
@@ -126,9 +137,14 @@ public class placement {
         return box;
     }
 
+    private void rafraichirGrille() {
+        zoneGrille.getChildren().clear();
+        zoneGrille.getChildren().add(genererGrille());
+    }
+
     private Label labelEntete(String texte) {
         Label lbl = new Label(texte);
-        lbl.setMinSize(TAILLE_CELLULE, TAILLE_CELLULE);
+        lbl.setMinSize(tailleCell, tailleCell);
         lbl.setAlignment(Pos.CENTER);
         lbl.setStyle("-fx-text-fill: #888888; -fx-font-size: 12px;");
         return lbl;
@@ -137,8 +153,25 @@ public class placement {
     // ── Panneau droit ─────────────────────────────────────────────────────────
 
     private VBox creerPanneau() {
+        Label titreTaille = new Label("Taille de la grille");
+        titreTaille.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;");
+
+        Spinner<Integer> spinnerTaille = new Spinner<>();
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 15, 10);
+        spinnerTaille.setValueFactory(valueFactory);
+        spinnerTaille.setPrefWidth(160);
+        spinnerTaille.setStyle("-fx-font-size: 12px;");
+        spinnerTaille.valueProperty().addListener((obs, oldVal, newVal) -> {
+            tailleGrille = newVal;
+            tailleCell = Math.max(30, TAILLE_CELLULE_BASE - (newVal - 10) * 2);
+            cellules = new Rectangle[tailleGrille][tailleGrille];
+            rafraichirGrille();
+            partieJeu.getJoueurHumain().getGrilleOcean().reinitialiser(tailleGrille);
+            mettreAJourListeBateaux();
+        });
+
         Label titreBateaux = new Label("Flotte");
-        titreBateaux.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;");
+        titreBateaux.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-padding: 12 0 0 0;");
 
         listeBateaux = new VBox(6);
         mettreAJourListeBateaux();
@@ -184,6 +217,8 @@ public class placement {
         boutonDemarrer.setOnAction(e -> demarrerCombat());
 
         VBox panneau = new VBox(8,
+                titreTaille, spinnerTaille,
+                separateur(),
                 titreBateaux, listeBateaux,
                 separateur(),
                 titreOrientation, btnH, btnV,
@@ -264,13 +299,13 @@ public class placement {
     // ── Logique survol ────────────────────────────────────────────────────────
 
     private void survollerCellule(int ligne, int col) {
-        if (bateauSelectionne == null) return;
+        if (bateauSelectionne == null || ligne >= tailleGrille || col >= tailleGrille) return;
         Grille grille = partieJeu.getJoueurHumain().getGrilleOcean();
         position depart = new position(ligne, col);
         boolean valide = grille.peutPlacerBateau(bateauSelectionne, depart, orientationSelectionnee);
 
         for (position p : grille.construirePositions(depart, orientationSelectionnee, bateauSelectionne.getTaille())) {
-            if (p.estDansLaGrille() && grille.getBateauSurPosition(p).isEmpty()) {
+            if (p.estDansLaGrille() && p.getLigne() < tailleGrille && p.getColonne() < tailleGrille && grille.getBateauSurPosition(p).isEmpty()) {
                 cellules[p.getLigne()][p.getColonne()].setFill(
                         Color.web(valide ? "#cce5ff" : "#ffd6d6")
                 );
@@ -279,12 +314,12 @@ public class placement {
     }
 
     private void reinitialiserSurvol(int ligne, int col) {
-        if (bateauSelectionne == null) return;
+        if (bateauSelectionne == null || ligne >= tailleGrille || col >= tailleGrille) return;
         Grille grille = partieJeu.getJoueurHumain().getGrilleOcean();
         position depart = new position(ligne, col);
 
         for (position p : grille.construirePositions(depart, orientationSelectionnee, bateauSelectionne.getTaille())) {
-            if (p.estDansLaGrille() && grille.getBateauSurPosition(p).isEmpty()) {
+            if (p.estDansLaGrille() && p.getLigne() < tailleGrille && p.getColonne() < tailleGrille && grille.getBateauSurPosition(p).isEmpty()) {
                 cellules[p.getLigne()][p.getColonne()].setFill(Color.WHITE);
             }
         }
@@ -293,7 +328,7 @@ public class placement {
     // ── Logique clic ──────────────────────────────────────────────────────────
 
     private void clicCellule(int ligne, int col) {
-        if (bateauSelectionne == null) {
+        if (bateauSelectionne == null || ligne >= tailleGrille || col >= tailleGrille) {
             labelStatut.setText("Selectionnez d'abord un vaisseau.");
             return;
         }

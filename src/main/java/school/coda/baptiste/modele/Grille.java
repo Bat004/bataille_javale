@@ -156,4 +156,9 @@ public class Grille {
 
         return true;
     }
+
+    public void reinitialiser(int nouvelleTaille) {
+        bateaux.clear();
+        tirsRecus.clear();
+    }
 }

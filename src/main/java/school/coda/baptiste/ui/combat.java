@@ -79,19 +79,19 @@ public class combat {
     // ── Zone grilles ─────────────────────────────────────────────────────────
 
     private HBox creerZoneGrilles() {
-        VBox zoneRadar = new VBox(8,
-                labelGrille("Grille radar  —  Mes tirs"),
-                creerGrilleRadar()
-        );
-        zoneRadar.setAlignment(Pos.TOP_LEFT);
-
         VBox zoneOcean = new VBox(8,
-                labelGrille("Grille ocean  —  Mes vaisseaux"),
+                labelGrille("Mes vaisseaux  —  Grille ocean"),
                 creerGrilleOcean()
         );
         zoneOcean.setAlignment(Pos.TOP_LEFT);
 
-        HBox zone = new HBox(30, zoneRadar, zoneOcean);
+        VBox zoneRadar = new VBox(8,
+                labelGrille("Mes tirs  —  Grille radar"),
+                creerGrilleRadar()
+        );
+        zoneRadar.setAlignment(Pos.TOP_LEFT);
+
+        HBox zone = new HBox(30, zoneOcean, zoneRadar);
         zone.setAlignment(Pos.TOP_CENTER);
         return zone;
     }
