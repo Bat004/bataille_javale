@@ -157,6 +157,16 @@ public class Grille {
         return true;
     }
 
+    public int getNombreBateauxRestants() {
+        int count = 0;
+        for (bateau bateau : bateaux) {
+            if (!bateau.estCoule()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public void reinitialiser(int nouvelleTaille) {
         bateaux.clear();
         tirsRecus.clear();

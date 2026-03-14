@@ -1,6 +1,7 @@
 package school.coda.baptiste.service;
 
 import school.coda.baptiste.modele.joueur;
+import school.coda.baptiste.modele.ModeJeu;
 import school.coda.baptiste.modele.orientation;
 import school.coda.baptiste.modele.position;
 import school.coda.baptiste.modele.resultat;
@@ -17,6 +18,8 @@ public class jeu {
     private int numeroTour;
     private final List<String> historique;
     private String gagnant;
+    private ModeJeu modeJeu = ModeJeu.NORMAL;
+    private int tirsRestantsCetTour = 1;
 
     public jeu(String nomJoueur) {
         this.joueurHumain = new joueur(nomJoueur);
@@ -52,6 +55,36 @@ public class jeu {
         return gagnant;
     }
 
+    public void setModeJeu(ModeJeu mode) {
+        this.modeJeu = mode;
+    }
+
+    public ModeJeu getModeJeu() {
+        return modeJeu;
+    }
+
+    public int getTirsRestantsCetTour() {
+        return tirsRestantsCetTour;
+    }
+
+    public int getNombreTirsDisponibles() {
+        if (modeJeu == ModeJeu.NORMAL) {
+            return 1;
+        } else {
+            // Mode SALVE : le nombre de tirs = nombre de bateaux restants du joueur
+            return joueurHumain.getGrilleOcean().getNombreBateauxRestants();
+        }
+    }
+
+    public int getNombreTirsDisponiblesOrdinateur() {
+        if (modeJeu == ModeJeu.NORMAL) {
+            return 1;
+        } else {
+            // Mode SALVE : le nombre de tirs = nombre de bateaux restants de l'ordinateur
+            return joueurOrdinateur.getGrilleOcean().getNombreBateauxRestants();
+        }
+    }
+
     public boolean placerBateauJoueur(typebateau typeBateau, position positionDepart, orientation orientation) {
         if (phase != school.coda.baptiste.modele.jeu.PLACEMENT) {
             return false;
@@ -75,6 +108,7 @@ public class jeu {
 
         phase = school.coda.baptiste.modele.jeu.COMBAT;
         historique.add("Le combat commence.");
+        tirsRestantsCetTour = getNombreTirsDisponibles();
         return true;
     }
 
@@ -91,6 +125,8 @@ public class jeu {
         joueurHumain.enregistrerTir(cible, resultatTir);
 
         historique.add("Tour " + numeroTour + " - " + joueurHumain.getNom() + " tire en " + cible + " : " + resultatTir.getMessage());
+
+        tirsRestantsCetTour--;
 
         if (joueurOrdinateur.aPerdu()) {
             phase = school.coda.baptiste.modele.jeu.TERMINE;
@@ -118,9 +154,14 @@ public class jeu {
             historique.add("Victoire de " + gagnant + ".");
         } else {
             numeroTour++;
+            tirsRestantsCetTour = getNombreTirsDisponibles();
         }
 
         return resultatTir;
+    }
+
+    public boolean aTirsDisponibles() {
+        return tirsRestantsCetTour > 0;
     }
 
     public boolean partieTerminee() {

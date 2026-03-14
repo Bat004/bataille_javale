@@ -24,35 +24,53 @@ public class menu {
     }
 
     public Parent creerContenu() {
-        Label titre = new Label("Bataille Javale");
+        Label titre = new Label("⚓ Bataille Javale");
         titre.setStyle(
-                "-fx-font-size: 36px;" +
+                "-fx-font-size: 48px;" +
                         "-fx-font-weight: bold;" +
-                        "-fx-text-fill: white;" +
+                        "-fx-text-fill: #0066cc;" +
                         "-fx-font-family: 'Georgia', serif;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 4, 0.0, 0, 2);"
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0.0, 0, 3);"
         );
 
-        Label credits = new Label("Baptiste Josserand");
+        Label sousTitre = new Label("Un jeu de stratégie naval classique");
+        sousTitre.setStyle(
+                "-fx-font-size: 16px;" +
+                        "-fx-text-fill: #0066cc;" +
+                        "-fx-font-style: italic;"
+        );
+
+        Label credits = new Label("Créé par Baptiste Josserand");
         credits.setStyle(
-                "-fx-font-size: 13px;" +
-                        "-fx-text-fill: rgba(255,255,255,0.8);"
+                "-fx-font-size: 12px;" +
+                        "-fx-text-fill: rgba(0,102,204,0.7);"
         );
 
-        Button boutonJouer = creerBouton("Nouvelle partie", true);
-        Button boutonQuitter = creerBouton("Quitter", false);
+        Button boutonJouer = creerBouton("🎮 Mode Normal", true);
+        Button boutonSalve = creerBouton("💥 Mode Salve", true);
+        Button boutonQuitter = creerBouton("❌ Quitter", false);
 
         boutonJouer.setOnAction(e -> {
-            placement vuePlacement = new placement(stage);
+            placement vuePlacement = new placement(stage, school.coda.baptiste.modele.ModeJeu.NORMAL);
+            stage.getScene().setRoot(vuePlacement.creerContenu());
+        });
+        boutonSalve.setOnAction(e -> {
+            placement vuePlacement = new placement(stage, school.coda.baptiste.modele.ModeJeu.SALVE);
             stage.getScene().setRoot(vuePlacement.creerContenu());
         });
         boutonQuitter.setOnAction(e -> stage.close());
 
-        VBox centre = new VBox(16, titre, credits, boutonJouer, boutonQuitter);
+        VBox centre = new VBox(16, titre, sousTitre, boutonJouer, boutonSalve, boutonQuitter, credits);
         centre.setAlignment(Pos.CENTER);
-        centre.setStyle("-fx-background-color: rgba(0, 0, 0, 0.3);");
-        centre.setPadding(new Insets(40));
+        centre.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.95);" +
+                        "-fx-border-radius: 16;" +
+                        "-fx-background-radius: 16;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.0, 0, 5);"
+        );
+        centre.setPadding(new Insets(60, 80, 60, 80));
         VBox.setMargin(boutonJouer, new Insets(20, 0, 0, 0));
+        VBox.setMargin(credits, new Insets(30, 0, 0, 0));
 
         BorderPane racine = new BorderPane();
 
@@ -67,33 +85,40 @@ public class menu {
             );
             racine.setBackground(new Background(bgImage));
         } catch (Exception e) {
-            racine.setStyle("-fx-background-color: #1a3a52;");
+            racine.setStyle("-fx-background: linear-gradient(to bottom, #e3f2fd, #bbdefb);");
         }
 
-        racine.setCenter(centre);
+        VBox wrapper = new VBox(centre);
+        wrapper.setAlignment(Pos.CENTER);
+        wrapper.setPadding(new Insets(40));
+        racine.setCenter(wrapper);
         return racine;
     }
 
     private Button creerBouton(String texte, boolean principal) {
         Button btn = new Button(texte);
-        btn.setPrefWidth(200);
-        btn.setPrefHeight(42);
+        btn.setPrefWidth(220);
+        btn.setPrefHeight(48);
         if (principal) {
             btn.setStyle(
-                    "-fx-background-color: #1a1a2e;" +
+                    "-fx-background-color: #0066cc;" +
                             "-fx-text-fill: white;" +
-                            "-fx-font-size: 14px;" +
-                            "-fx-background-radius: 6;" +
-                            "-fx-cursor: hand;"
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-background-radius: 8;" +
+                            "-fx-cursor: hand;" +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,102,204,0.4), 6, 0.0, 0, 2);"
             );
         } else {
             btn.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-text-fill: #999999;" +
-                            "-fx-font-size: 13px;" +
-                            "-fx-border-color: #cccccc;" +
-                            "-fx-border-radius: 6;" +
-                            "-fx-background-radius: 6;" +
+                    "-fx-background-color: white;" +
+                            "-fx-text-fill: #0066cc;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-border-color: #0066cc;" +
+                            "-fx-border-width: 2;" +
+                            "-fx-border-radius: 8;" +
+                            "-fx-background-radius: 8;" +
                             "-fx-cursor: hand;"
             );
         }

@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import school.coda.baptiste.modele.Grille;
+import school.coda.baptiste.modele.ModeJeu;
 import school.coda.baptiste.modele.orientation;
 import school.coda.baptiste.modele.position;
 import school.coda.baptiste.modele.typebateau;
@@ -23,9 +24,14 @@ import school.coda.baptiste.service.jeu;
 public class placement {
 
     private static final int TAILLE_CELLULE_BASE = 46;
+    private static final String COULEUR_MER = "#0066cc";
+    private static final String COULEUR_BATEAU = "#808080";
+    private static final String COULEUR_TOUCHE = "#ff3333";
+    private static final String COULEUR_EAU = "#ffffff";
 
     private final Stage stage;
     private final jeu partieJeu;
+    private final ModeJeu modeJeu;
 
     private typebateau bateauSelectionne;
     private orientation orientationSelectionnee = orientation.HORIZONTALE;
@@ -39,53 +45,52 @@ public class placement {
     private VBox zoneGrille;
 
     public placement(Stage stage) {
-        this(stage, new jeu("Joueur"));
+        this(stage, ModeJeu.NORMAL);
+    }
+
+    public placement(Stage stage, ModeJeu modeJeu) {
+        this.stage = stage;
+        this.modeJeu = modeJeu;
+        this.partieJeu = new jeu("Joueur");
+        this.partieJeu.setModeJeu(modeJeu);
     }
 
     public placement(Stage stage, jeu partieJeu) {
         this.stage = stage;
         this.partieJeu = partieJeu;
+        this.modeJeu = ModeJeu.NORMAL;
     }
 
     public Parent creerContenu() {
         BorderPane racine = new BorderPane();
-        racine.setStyle("-fx-background-color: #f5f5f5;");
+        racine.setStyle("-fx-background: linear-gradient(to bottom, #f8f9fa, #e8ecf1);");
         racine.setPadding(new Insets(24));
 
-        racine.setTop(creerEntete());
+        racine.setTop(creerTitre());
         racine.setCenter(creerZoneCentrale());
-        racine.setBottom(creerBarreStatut());
+        racine.setBottom(creerBarreInferieure());
 
         selectionnerProchainBateau();
         return racine;
     }
 
-    // ── Entête ───────────────────────────────────────────────────────────────
-
-    private HBox creerEntete() {
-        Label titre = new Label("Placement des vaisseaux");
+    private HBox creerTitre() {
+        Label titre = new Label("⚓ Placement des vaisseaux");
         titre.setStyle(
-                "-fx-font-size: 22px; -fx-font-weight: bold;" +
-                        "-fx-text-fill: #1a1a2e; -fx-font-family: 'Georgia', serif;"
+                "-fx-font-size: 28px; -fx-font-weight: bold;" +
+                        "-fx-text-fill: #0066cc; -fx-font-family: 'Georgia', serif;"
         );
 
-        Button retour = new Button("← Menu");
-        retour.setStyle(styleBoutonSecondaire());
-        retour.setOnAction(e -> {
-            menu vueMenu = new menu(stage);
-            stage.getScene().setRoot(vueMenu.creerContenu());
-        });
+        Label modeLabel = new Label("(" + modeJeu.getNom() + ")");
+        modeLabel.setStyle(
+                "-fx-font-size: 14px; -fx-text-fill: #666666; -fx-font-style: italic;"
+        );
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        HBox entete = new HBox(12, titre, spacer, retour);
-        entete.setAlignment(Pos.CENTER_LEFT);
-        entete.setPadding(new Insets(0, 0, 20, 0));
-        return entete;
+        HBox titreBox = new HBox(10, titre, modeLabel);
+        titreBox.setAlignment(Pos.CENTER);
+        titreBox.setPadding(new Insets(0, 0, 20, 0));
+        return titreBox;
     }
-
-    // ── Zone centrale (grille + panneau) ─────────────────────────────────────
 
     private HBox creerZoneCentrale() {
         zoneGrille = creerGrille();
@@ -93,8 +98,6 @@ public class placement {
         zone.setAlignment(Pos.TOP_CENTER);
         return zone;
     }
-
-    // ── Grille ───────────────────────────────────────────────────────────────
 
     private VBox creerGrille() {
         cellules = new Rectangle[tailleGrille][tailleGrille];
@@ -105,6 +108,7 @@ public class placement {
         GridPane grille = new GridPane();
         grille.setHgap(2);
         grille.setVgap(2);
+        grille.setStyle("-fx-padding: 10; -fx-background-color: white; -fx-border-radius: 8; -fx-background-radius: 8;");
 
         for (int col = 0; col < tailleGrille; col++) {
             grille.add(labelEntete(String.valueOf(col + 1)), col + 1, 0);
@@ -116,8 +120,8 @@ public class placement {
         for (int ligne = 0; ligne < tailleGrille; ligne++) {
             for (int col = 0; col < tailleGrille; col++) {
                 Rectangle rect = new Rectangle(tailleCell, tailleCell);
-                rect.setFill(Color.WHITE);
-                rect.setStroke(Color.web("#dddddd"));
+                rect.setFill(Color.web(COULEUR_MER));
+                rect.setStroke(Color.web("#0052a3"));
                 rect.setStrokeWidth(1);
                 rect.setArcWidth(4);
                 rect.setArcHeight(4);
@@ -134,10 +138,13 @@ public class placement {
 
         VBox box = new VBox(0, grille);
         box.setAlignment(Pos.TOP_LEFT);
+        box.setStyle("-fx-background-color: white; -fx-border-radius: 8; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.0, 0, 2);");
+        box.setPadding(new Insets(0));
         return box;
     }
 
     private void rafraichirGrille() {
+        position.setTailleGrille(tailleGrille);
         zoneGrille.getChildren().clear();
         zoneGrille.getChildren().add(genererGrille());
     }
@@ -146,21 +153,19 @@ public class placement {
         Label lbl = new Label(texte);
         lbl.setMinSize(tailleCell, tailleCell);
         lbl.setAlignment(Pos.CENTER);
-        lbl.setStyle("-fx-text-fill: #888888; -fx-font-size: 12px;");
+        lbl.setStyle("-fx-text-fill: #0066cc; -fx-font-size: 12px; -fx-font-weight: bold;");
         return lbl;
     }
 
-    // ── Panneau droit ─────────────────────────────────────────────────────────
-
     private VBox creerPanneau() {
         Label titreTaille = new Label("Taille de la grille");
-        titreTaille.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;");
+        titreTaille.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #0066cc;");
 
         Spinner<Integer> spinnerTaille = new Spinner<>();
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 15, 10);
         spinnerTaille.setValueFactory(valueFactory);
         spinnerTaille.setPrefWidth(160);
-        spinnerTaille.setStyle("-fx-font-size: 12px;");
+        spinnerTaille.setStyle("-fx-font-size: 12px; -fx-control-inner-background: #f0f4f8;");
         spinnerTaille.valueProperty().addListener((obs, oldVal, newVal) -> {
             tailleGrille = newVal;
             tailleCell = Math.max(30, TAILLE_CELLULE_BASE - (newVal - 10) * 2);
@@ -170,14 +175,14 @@ public class placement {
             mettreAJourListeBateaux();
         });
 
-        Label titreBateaux = new Label("Flotte");
-        titreBateaux.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-padding: 12 0 0 0;");
+        Label titreBateaux = new Label("⛵ Flotte");
+        titreBateaux.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #0066cc; -fx-padding: 12 0 0 0;");
 
         listeBateaux = new VBox(6);
         mettreAJourListeBateaux();
 
-        Label titreOrientation = new Label("Orientation");
-        titreOrientation.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-padding: 12 0 0 0;");
+        Label titreOrientation = new Label("🧭 Orientation");
+        titreOrientation.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #0066cc; -fx-padding: 12 0 0 0;");
 
         ToggleGroup groupe = new ToggleGroup();
 
@@ -209,12 +214,19 @@ public class placement {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        boutonDemarrer = new Button("Demarrer le combat");
+        boutonDemarrer = new Button("🎮 Démarrer le combat");
         boutonDemarrer.setPrefWidth(160);
         boutonDemarrer.setPrefHeight(40);
         boutonDemarrer.setDisable(true);
         boutonDemarrer.setStyle(styleBoutonPrimaire(false));
         boutonDemarrer.setOnAction(e -> demarrerCombat());
+
+        // Ajouter une description pour le mode Salve
+        Label descriptionSalve = new Label();
+        if (modeJeu == ModeJeu.SALVE) {
+            descriptionSalve.setText("💥 Mode Salve : Vous tirez autant de fois qu'il vous reste de bateaux !");
+            descriptionSalve.setStyle("-fx-font-size: 11px; -fx-text-fill: #ff6600; -fx-padding: 12 0 0 0; -fx-font-weight: bold;");
+        }
 
         VBox panneau = new VBox(8,
                 titreTaille, spinnerTaille,
@@ -222,11 +234,13 @@ public class placement {
                 titreBateaux, listeBateaux,
                 separateur(),
                 titreOrientation, btnH, btnV,
+                descriptionSalve,
                 spacer,
                 boutonDemarrer
         );
         panneau.setMinWidth(180);
         panneau.setMaxWidth(200);
+        panneau.setStyle("-fx-background-color: white; -fx-padding: 16; -fx-border-radius: 8; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.0, 0, 2);");
         return panneau;
     }
 
@@ -240,26 +254,26 @@ public class placement {
 
             HBox ligne = new HBox(8);
             ligne.setAlignment(Pos.CENTER_LEFT);
-            ligne.setPadding(new Insets(6, 10, 6, 10));
+            ligne.setPadding(new Insets(8, 10, 8, 10));
             ligne.setPrefWidth(160);
 
-            String fond = selectionne ? "#e8f0fe" : (place ? "#f0faf0" : "white");
-            String bordure = selectionne ? "#4a90d9" : (place ? "#81c784" : "#dddddd");
+            String fond = selectionne ? "#e3f2fd" : (place ? "#e8f5e9" : "white");
+            String bordure = selectionne ? "#0066cc" : (place ? "#4caf50" : "#e0e0e0");
 
             ligne.setStyle(
                     "-fx-background-color: " + fond + ";" +
                             "-fx-border-color: " + bordure + ";" +
-                            "-fx-border-width: 1;" +
+                            "-fx-border-width: 2;" +
                             "-fx-border-radius: 6;" +
                             "-fx-background-radius: 6;"
             );
 
             Label icone = new Label(place ? "✓" : (selectionne ? "▶" : " "));
-            icone.setStyle("-fx-text-fill: " + (place ? "#4caf50" : (selectionne ? "#4a90d9" : "#cccccc")) + "; -fx-font-size: 12px;");
+            icone.setStyle("-fx-text-fill: " + (place ? "#4caf50" : (selectionne ? "#0066cc" : "#cccccc")) + "; -fx-font-size: 12px;");
             icone.setMinWidth(14);
 
             Label nom = new Label(type.getNomAffiche());
-            nom.setStyle("-fx-text-fill: " + (place ? "#888888" : "#1a1a2e") + "; -fx-font-size: 13px;");
+            nom.setStyle("-fx-text-fill: " + (place ? "#999999" : "#0066cc") + "; -fx-font-size: 13px; -fx-font-weight: bold;");
 
             Region sp = new Region();
             HBox.setHgrow(sp, Priority.ALWAYS);
@@ -276,8 +290,8 @@ public class placement {
                 });
                 ligne.setStyle(
                         "-fx-background-color: white;" +
-                                "-fx-border-color: #dddddd;" +
-                                "-fx-border-width: 1;" +
+                                "-fx-border-color: #e0e0e0;" +
+                                "-fx-border-width: 2;" +
                                 "-fx-border-radius: 6;" +
                                 "-fx-background-radius: 6;" +
                                 "-fx-cursor: hand;"
@@ -288,15 +302,29 @@ public class placement {
         }
     }
 
-    // ── Barre de statut ───────────────────────────────────────────────────────
+    private VBox creerBarreInferieure() {
+        labelStatut = new Label("Sélectionnez un vaisseau et cliquez sur la grille.");
+        labelStatut.setStyle("-fx-text-fill: #0066cc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 14 0 10 0;");
+        labelStatut.setWrapText(true);
+        labelStatut.setAlignment(Pos.CENTER);
 
-    private HBox creerBarreStatut() {
-        labelStatut = new Label("Selectionnez un vaisseau et cliquez sur la grille.");
-        labelStatut.setStyle("-fx-text-fill: #888888; -fx-font-size: 13px; -fx-padding: 14 0 0 0;");
-        return new HBox(labelStatut);
+        Button retour = new Button("← Menu");
+        retour.setStyle(styleBoutonSecondaire());
+        retour.setOnAction(e -> {
+            menu vueMenu = new menu(stage);
+            stage.getScene().setRoot(vueMenu.creerContenu());
+        });
+
+        HBox boutonBox = new HBox(retour);
+        boutonBox.setAlignment(Pos.CENTER);
+        boutonBox.setPadding(new Insets(10, 0, 0, 0));
+
+        VBox barreInf = new VBox(8, labelStatut, boutonBox);
+        barreInf.setAlignment(Pos.CENTER);
+        barreInf.setPadding(new Insets(20, 0, 0, 0));
+        barreInf.setStyle("-fx-border-color: #e0e0e0; -fx-border-width: 1 0 0 0;");
+        return barreInf;
     }
-
-    // ── Logique survol ────────────────────────────────────────────────────────
 
     private void survollerCellule(int ligne, int col) {
         if (bateauSelectionne == null || ligne >= tailleGrille || col >= tailleGrille) return;
@@ -307,7 +335,7 @@ public class placement {
         for (position p : grille.construirePositions(depart, orientationSelectionnee, bateauSelectionne.getTaille())) {
             if (p.estDansLaGrille() && p.getLigne() < tailleGrille && p.getColonne() < tailleGrille && grille.getBateauSurPosition(p).isEmpty()) {
                 cellules[p.getLigne()][p.getColonne()].setFill(
-                        Color.web(valide ? "#cce5ff" : "#ffd6d6")
+                        Color.web(valide ? "#4da6ff" : "#ff6666")
                 );
             }
         }
@@ -320,16 +348,14 @@ public class placement {
 
         for (position p : grille.construirePositions(depart, orientationSelectionnee, bateauSelectionne.getTaille())) {
             if (p.estDansLaGrille() && p.getLigne() < tailleGrille && p.getColonne() < tailleGrille && grille.getBateauSurPosition(p).isEmpty()) {
-                cellules[p.getLigne()][p.getColonne()].setFill(Color.WHITE);
+                cellules[p.getLigne()][p.getColonne()].setFill(Color.web(COULEUR_MER));
             }
         }
     }
 
-    // ── Logique clic ──────────────────────────────────────────────────────────
-
     private void clicCellule(int ligne, int col) {
         if (bateauSelectionne == null || ligne >= tailleGrille || col >= tailleGrille) {
-            labelStatut.setText("Selectionnez d'abord un vaisseau.");
+            labelStatut.setText("Sélectionnez d'abord un vaisseau.");
             return;
         }
 
@@ -337,13 +363,13 @@ public class placement {
 
         if (place) {
             colorierBateau(new position(ligne, col));
-            labelStatut.setText(bateauSelectionne.getNomAffiche() + " place.");
+            labelStatut.setText("✓ " + bateauSelectionne.getNomAffiche() + " placé avec succès !");
             bateauSelectionne = null;
             mettreAJourListeBateaux();
             selectionnerProchainBateau();
             verifierFlotteComplete();
         } else {
-            labelStatut.setText("Placement invalide, essayez une autre position.");
+            labelStatut.setText("✗ Placement invalide, essayez une autre position.");
         }
     }
 
@@ -354,8 +380,8 @@ public class placement {
                 .ifPresent(b -> {
                     for (position p : b.getPositions()) {
                         Rectangle rect = cellules[p.getLigne()][p.getColonne()];
-                        rect.setFill(Color.web("#4a90d9"));
-                        rect.setStroke(Color.web("#2e70b8"));
+                        rect.setFill(Color.web(COULEUR_BATEAU));
+                        rect.setStroke(Color.web("#606060"));
                         rect.setOnMouseEntered(null);
                         rect.setOnMouseExited(null);
                     }
@@ -377,7 +403,7 @@ public class placement {
 
     private void verifierFlotteComplete() {
         if (partieJeu.joueurPretPourCombat()) {
-            labelStatut.setText("Flotte complete ! Cliquez sur Demarrer.");
+            labelStatut.setText("✓ Flotte complète ! Cliquez sur Démarrer le combat.");
             boutonDemarrer.setDisable(false);
             boutonDemarrer.setStyle(styleBoutonPrimaire(true));
         }
@@ -389,42 +415,43 @@ public class placement {
         stage.getScene().setRoot(vueCombat.creerContenu());
     }
 
-    // ── Styles ────────────────────────────────────────────────────────────────
-
     private String styleBoutonSecondaire() {
         return "-fx-background-color: white;" +
-                "-fx-text-fill: #555555;" +
-                "-fx-border-color: #cccccc;" +
-                "-fx-border-width: 1;" +
+                "-fx-text-fill: #0066cc;" +
+                "-fx-border-color: #0066cc;" +
+                "-fx-border-width: 2;" +
                 "-fx-border-radius: 6;" +
                 "-fx-background-radius: 6;" +
                 "-fx-font-size: 13px;" +
+                "-fx-font-weight: bold;" +
                 "-fx-cursor: hand;";
     }
 
     private String styleBoutonPrimaire(boolean actif) {
-        return "-fx-background-color: " + (actif ? "#1a1a2e" : "#cccccc") + ";" +
+        return "-fx-background-color: " + (actif ? "#0066cc" : "#cccccc") + ";" +
                 "-fx-text-fill: white;" +
                 "-fx-border-radius: 6;" +
                 "-fx-background-radius: 6;" +
                 "-fx-font-size: 13px;" +
+                "-fx-font-weight: bold;" +
                 "-fx-cursor: " + (actif ? "hand" : "default") + ";";
     }
 
     private String styleToggle(boolean actif) {
-        return "-fx-background-color: " + (actif ? "#1a1a2e" : "white") + ";" +
-                "-fx-text-fill: " + (actif ? "white" : "#555555") + ";" +
-                "-fx-border-color: " + (actif ? "#1a1a2e" : "#cccccc") + ";" +
-                "-fx-border-width: 1;" +
+        return "-fx-background-color: " + (actif ? "#0066cc" : "white") + ";" +
+                "-fx-text-fill: " + (actif ? "white" : "#0066cc") + ";" +
+                "-fx-border-color: " + (actif ? "#0066cc" : "#0066cc") + ";" +
+                "-fx-border-width: 2;" +
                 "-fx-border-radius: 6;" +
                 "-fx-background-radius: 6;" +
                 "-fx-font-size: 13px;" +
+                "-fx-font-weight: bold;" +
                 "-fx-cursor: hand;";
     }
 
     private javafx.scene.shape.Line separateur() {
         javafx.scene.shape.Line line = new javafx.scene.shape.Line(0, 0, 160, 0);
-        line.setStroke(Color.web("#eeeeee"));
+        line.setStroke(Color.web("#e0e0e0"));
         VBox.setMargin(line, new Insets(6, 0, 6, 0));
         return line;
     }

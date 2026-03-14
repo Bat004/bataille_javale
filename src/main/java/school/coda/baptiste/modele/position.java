@@ -5,6 +5,7 @@ import java.util.Objects;
 public class position {
     private final int ligne;
     private final int colonne;
+    private static int tailleGrille = 10;
 
     public position(int ligne, int colonne) {
         this.ligne = ligne;
@@ -19,8 +20,12 @@ public class position {
         return colonne;
     }
 
+    public static void setTailleGrille(int taille) {
+        tailleGrille = taille;
+    }
+
     public boolean estDansLaGrille() {
-        return ligne >= 0 && ligne < 10 && colonne >= 0 && colonne < 10;
+        return ligne >= 0 && ligne < tailleGrille && colonne >= 0 && colonne < tailleGrille;
     }
 
     public String toCaseLisible() {
