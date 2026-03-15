@@ -39,6 +39,8 @@ public class sonManager {
         chargerMusique("sounds/musique.mp3");
     }
 
+    // Architecture : Bonne réutilisation de code
+    // Tips : On pourrait gérer le cas où le clip n'est pas trouvé avec un Optional
     private AudioClip chargerClip(String chemin) {
         try {
             URL url = getClass().getClassLoader().getResource(chemin);
@@ -47,6 +49,10 @@ public class sonManager {
             }
             System.err.println("Son introuvable : " + chemin);
         } catch (Exception e) {
+            // 👍 C'est une bonne idée de tracer l'erreur plutôt que de planter l'application
+            // Cependant, cela aurait été préférable de la remonter sous la forme
+            // d'une exception custom unchecked plutôt que de la tracer dans ce catch
+            // Cette exception custom pourrait être attrapée et tracée dans le Main
             System.err.println("Erreur son : " + chemin + " — " + e.getMessage());
         }
         return null;
@@ -68,6 +74,10 @@ public class sonManager {
             );
         } catch (Exception e) {
             System.err.println("Erreur musique : " + chemin + " — " + e.getMessage());
+            // 👍 C'est une bonne idée de tracer l'erreur plutôt que de planter l'application
+            // Cependant, cela aurait été préférable de la remonter sous la forme
+            // d'une exception custom unchecked plutôt que de la tracer dans ce catch
+            // Cette exception custom pourrait être attrapée et tracée dans le Main
         }
     }
 
