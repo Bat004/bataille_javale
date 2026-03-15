@@ -2,6 +2,7 @@ package school.coda.baptiste.modele;
 
 import java.util.Objects;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class position {
     private final int ligne;
     private final int colonne;

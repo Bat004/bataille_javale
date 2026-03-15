@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import school.coda.baptiste.service.jeu;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class finpartie {
 
     private final Stage stage;

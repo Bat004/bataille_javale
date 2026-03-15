@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class menu {
 
     private final Stage stage;

@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class bot {
     private final Random random;
 

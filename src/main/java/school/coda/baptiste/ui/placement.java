@@ -21,6 +21,7 @@ import school.coda.baptiste.modele.position;
 import school.coda.baptiste.modele.typebateau;
 import school.coda.baptiste.service.jeu;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class placement {
 
     private static final int TAILLE_CELLULE_BASE = 46;

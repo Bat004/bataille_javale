@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class joueur {
     private final String nom;
     private final Grille grilleOcean;

@@ -10,6 +10,7 @@ import school.coda.baptiste.modele.typebateau;
 import java.util.ArrayList;
 import java.util.List;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class jeu {
     private final joueur joueurHumain;
     private final joueur joueurOrdinateur;

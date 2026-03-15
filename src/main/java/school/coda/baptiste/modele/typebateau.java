@@ -1,5 +1,6 @@
 package school.coda.baptiste.modele;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public enum typebateau {
     PORTE_AVIONS("Porte-avions", 5),
     CUIRASSE("Cuirassé", 4),

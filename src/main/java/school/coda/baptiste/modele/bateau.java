@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// Conventions : Les noms de classe doivent être en PascalCase
 public class bateau {
     private final typebateau type;
     private final List<position> positions;
