@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Grille {
+    // Architecture : Constante non utilisée
     public static final int TAILLE = 10;
 
     private final List<bateau> bateaux;
@@ -21,6 +22,7 @@ public class Grille {
         return new ArrayList<>(bateaux);
     }
 
+    // Architecture : Méthode non utilisée
     public Set<position> getTirsRecus() {
         return new HashSet<>(tirsRecus);
     }
@@ -167,6 +169,7 @@ public class Grille {
         return count;
     }
 
+    // Architecture : Paramètre non utilisé
     public void reinitialiser(int nouvelleTaille) {
         bateaux.clear();
         tirsRecus.clear();

@@ -19,6 +19,7 @@ public enum ModeJeu {
         return nom;
     }
 
+    // Architecture : Méthode non utilisée
     public String getDescription() {
         return description;
     }

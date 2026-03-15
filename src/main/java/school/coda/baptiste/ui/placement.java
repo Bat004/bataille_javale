@@ -9,11 +9,15 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import school.coda.baptiste.modele.Grille;
 import school.coda.baptiste.modele.ModeJeu;
 import school.coda.baptiste.modele.orientation;
@@ -27,7 +31,9 @@ public class placement {
     private static final int TAILLE_CELLULE_BASE = 46;
     private static final String COULEUR_MER = "#0066cc";
     private static final String COULEUR_BATEAU = "#808080";
+    // Architecture : Constante non utilisée
     private static final String COULEUR_TOUCHE = "#ff3333";
+    // Architecture : Constante non utilisée
     private static final String COULEUR_EAU = "#ffffff";
 
     private final Stage stage;
@@ -79,7 +85,7 @@ public class placement {
         Label titre = new Label("⚓ Placement des vaisseaux");
         titre.setStyle(
                 "-fx-font-size: 28px; -fx-font-weight: bold;" +
-                        "-fx-text-fill: #0066cc; -fx-font-family: 'Georgia', serif;"
+                "-fx-text-fill: #0066cc; -fx-font-family: 'Georgia', serif;"
         );
 
         Label modeLabel = new Label("(" + modeJeu.getNom() + ")");
@@ -263,10 +269,10 @@ public class placement {
 
             ligne.setStyle(
                     "-fx-background-color: " + fond + ";" +
-                            "-fx-border-color: " + bordure + ";" +
-                            "-fx-border-width: 2;" +
-                            "-fx-border-radius: 6;" +
-                            "-fx-background-radius: 6;"
+                    "-fx-border-color: " + bordure + ";" +
+                    "-fx-border-width: 2;" +
+                    "-fx-border-radius: 6;" +
+                    "-fx-background-radius: 6;"
             );
 
             Label icone = new Label(place ? "✓" : (selectionne ? "▶" : " "));
@@ -291,11 +297,11 @@ public class placement {
                 });
                 ligne.setStyle(
                         "-fx-background-color: white;" +
-                                "-fx-border-color: #e0e0e0;" +
-                                "-fx-border-width: 2;" +
-                                "-fx-border-radius: 6;" +
-                                "-fx-background-radius: 6;" +
-                                "-fx-cursor: hand;"
+                        "-fx-border-color: #e0e0e0;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 6;" +
+                        "-fx-background-radius: 6;" +
+                        "-fx-cursor: hand;"
                 );
             }
 
@@ -418,24 +424,24 @@ public class placement {
 
     private String styleBoutonSecondaire() {
         return "-fx-background-color: white;" +
-                "-fx-text-fill: #0066cc;" +
-                "-fx-border-color: #0066cc;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-radius: 6;" +
-                "-fx-background-radius: 6;" +
-                "-fx-font-size: 13px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: hand;";
+               "-fx-text-fill: #0066cc;" +
+               "-fx-border-color: #0066cc;" +
+               "-fx-border-width: 2;" +
+               "-fx-border-radius: 6;" +
+               "-fx-background-radius: 6;" +
+               "-fx-font-size: 13px;" +
+               "-fx-font-weight: bold;" +
+               "-fx-cursor: hand;";
     }
 
     private String styleBoutonPrimaire(boolean actif) {
         return "-fx-background-color: " + (actif ? "#0066cc" : "#cccccc") + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-border-radius: 6;" +
-                "-fx-background-radius: 6;" +
-                "-fx-font-size: 13px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: " + (actif ? "hand" : "default") + ";";
+               "-fx-text-fill: white;" +
+               "-fx-border-radius: 6;" +
+               "-fx-background-radius: 6;" +
+               "-fx-font-size: 13px;" +
+               "-fx-font-weight: bold;" +
+               "-fx-cursor: " + (actif ? "hand" : "default") + ";";
     }
 
     private String styleToggle(boolean actif) {

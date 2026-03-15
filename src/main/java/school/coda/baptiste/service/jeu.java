@@ -36,10 +36,12 @@ public class jeu {
         return joueurHumain;
     }
 
+    // Architecture : Méthode non utilisée
     public joueur getJoueurOrdinateur() {
         return joueurOrdinateur;
     }
 
+    // Architecture : Méthode non utilisée
     public school.coda.baptiste.modele.jeu getPhase() {
         return phase;
     }
@@ -48,6 +50,7 @@ public class jeu {
         return numeroTour;
     }
 
+    // Architecture : Méthode non utilisée
     public List<String> getHistorique() {
         return new ArrayList<>(historique);
     }
@@ -60,10 +63,12 @@ public class jeu {
         this.modeJeu = mode;
     }
 
+    // Architecture : Méthode non utilisée
     public ModeJeu getModeJeu() {
         return modeJeu;
     }
 
+    // Architecture : Méthode non utilisée
     public int getTirsRestantsCetTour() {
         return tirsRestantsCetTour;
     }
@@ -77,6 +82,7 @@ public class jeu {
         }
     }
 
+    // Architecture : Méthode non utilisée
     public int getNombreTirsDisponiblesOrdinateur() {
         if (modeJeu == ModeJeu.NORMAL) {
             return 1;
@@ -161,6 +167,7 @@ public class jeu {
         return resultatTir;
     }
 
+    // Architecture : Méthode non utilisée
     public boolean aTirsDisponibles() {
         return tirsRestantsCetTour > 0;
     }
