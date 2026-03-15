@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import school.coda.baptiste.ui.menu;
 
+// Lancement du programme : Le programme ne se lance pas en l'état
+// J'ai dù réparer le module-info.java pour pouvoir le lancer
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
