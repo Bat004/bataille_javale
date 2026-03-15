@@ -51,7 +51,7 @@ public class menu {
         Button boutonSalve = creerBouton("💥 Mode Salve", true);
         Button boutonQuitter = creerBouton("❌ Quitter", false);
 
-        boutonJouer.setOnAction(e -> {
+        boutonJouer.setOnAction(e -> { // Architecture:   Le nom qualifié peut être remplacé par un import
             placement vuePlacement = new placement(stage, school.coda.baptiste.modele.ModeJeu.NORMAL);
             stage.getScene().setRoot(vuePlacement.creerContenu());
         });
