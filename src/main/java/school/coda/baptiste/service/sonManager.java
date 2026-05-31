@@ -6,7 +6,7 @@ import javafx.scene.media.MediaPlayer;
 
 import java.net.URL;
 
-// Conventions : Les noms de classe doivent être en PascalCase
+// 🚨Conventions Java: Les noms de classe doivent être en PascalCase
 public class sonManager {
 
     private static sonManager instance;

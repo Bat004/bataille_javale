@@ -1,6 +1,6 @@
 package school.coda.baptiste.modele;
 
-// Conventions : Les noms de classe doivent être en PascalCase
+// 🚨Conventions Java: Les noms de classe doivent être en PascalCase
 public class resultat {
     private final typeresultat typeResultat;
     private final typebateau bateauCoule;

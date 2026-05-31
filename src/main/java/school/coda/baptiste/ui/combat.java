@@ -19,7 +19,7 @@ import school.coda.baptiste.modele.typeresultat;
 import school.coda.baptiste.service.jeu;
 import school.coda.baptiste.service.sonManager;
 
-// Conventions : Les noms de classe doivent être en PascalCase
+// 🚨Conventions Java: Les noms de classe doivent être en PascalCase
 public class combat {
 
     private static final int TAILLE_CELLULE = 40;
