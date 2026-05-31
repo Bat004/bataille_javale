@@ -19,7 +19,7 @@ public enum ModeJeu {
         return nom;
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public String getDescription() {
         return description;
     }

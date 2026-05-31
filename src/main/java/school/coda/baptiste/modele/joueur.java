@@ -27,12 +27,12 @@ public class joueur {
         return grilleOcean;
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public Set<position> getTirsEnvoyes() {
         return new HashSet<>(tirsEnvoyes);
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public Map<position, resultat> getRadar() {
         return new HashMap<>(radar);
     }

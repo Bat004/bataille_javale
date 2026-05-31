@@ -14,12 +14,12 @@ public class resultat {
         return typeResultat;
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public typebateau getBateauCoule() {
         return bateauCoule;
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public boolean estCoule() {
         return typeResultat == typeresultat.COULE;
     }

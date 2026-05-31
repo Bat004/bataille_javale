@@ -21,12 +21,12 @@ public class bateau {
         return type;
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public String getNom() {
         return type.getNomAffiche();
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public int getTaille() {
         return type.getTaille();
     }

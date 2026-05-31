@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Grille {
-    // Architecture : Constante non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public static final int TAILLE = 10;
 
     private final List<bateau> bateaux;
@@ -22,7 +22,7 @@ public class Grille {
         return new ArrayList<>(bateaux);
     }
 
-    // Architecture : Méthode non utilisée
+    // 🚨 Code mort (jamais utilisé)
     public Set<position> getTirsRecus() {
         return new HashSet<>(tirsRecus);
     }
@@ -169,7 +169,7 @@ public class Grille {
         return count;
     }
 
-    // Architecture : Paramètre non utilisé
+    // 🚨 Code mort (paramètre jamais utilisé)
     public void reinitialiser(int nouvelleTaille) {
         bateaux.clear();
         tirsRecus.clear();
