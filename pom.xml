@@ -6,7 +6,7 @@
     <groupId>school.coda.baptiste</groupId>
     <artifactId>bataille_javale</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>bataille_javale</name>
+    <name>bataille_javale-i</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
