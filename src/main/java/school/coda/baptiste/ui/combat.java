@@ -7,11 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import school.coda.baptiste.modele.Grille;
 import school.coda.baptiste.modele.position;
 import school.coda.baptiste.modele.resultat;
@@ -64,15 +68,15 @@ public class combat {
         Label titre = new Label("Combat");
         titre.setStyle(
                 "-fx-font-size: 22px; -fx-font-weight: bold;" +
-                        "-fx-text-fill: #1a1a2e; -fx-font-family: 'Georgia', serif;"
+                "-fx-text-fill: #1a1a2e; -fx-font-family: 'Georgia', serif;"
         );
 
         labelTour = new Label("Tour 1");
         labelTour.setStyle(
                 "-fx-font-size: 13px; -fx-text-fill: #888888;" +
-                        "-fx-border-color: #dddddd; -fx-border-radius: 6;" +
-                        "-fx-background-color: white; -fx-background-radius: 6;" +
-                        "-fx-padding: 4 12 4 12;"
+                "-fx-border-color: #dddddd; -fx-border-radius: 6;" +
+                "-fx-background-color: white; -fx-background-radius: 6;" +
+                "-fx-padding: 4 12 4 12;"
         );
 
         Region spacer = new Region();
@@ -221,8 +225,8 @@ public class combat {
         scroll.setPrefHeight(340);
         scroll.setStyle(
                 "-fx-background-color: white;" +
-                        "-fx-border-color: #eeeeee;" +
-                        "-fx-border-radius: 6; -fx-background-radius: 6;"
+                "-fx-border-color: #eeeeee;" +
+                "-fx-border-radius: 6; -fx-background-radius: 6;"
         );
 
         return new VBox(8, titre, scroll);
@@ -245,9 +249,9 @@ public class combat {
         VBox box = new VBox(6, titre, cbMusique, cbSons);
         box.setStyle(
                 "-fx-background-color: white;" +
-                        "-fx-border-color: #eeeeee;" +
-                        "-fx-border-radius: 6; -fx-background-radius: 6;" +
-                        "-fx-padding: 10;"
+                "-fx-border-color: #eeeeee;" +
+                "-fx-border-radius: 6; -fx-background-radius: 6;" +
+                "-fx-padding: 10;"
         );
         return box;
     }
@@ -302,16 +306,17 @@ public class combat {
 
     private void jouerSonResultat(resultat res) {
         switch (res.getTypeResultat()) {
-            case RATE   -> sons.jouerRate();
+            case RATE -> sons.jouerRate();
             case TOUCHE -> sons.jouerTouche();
-            case COULE  -> {
+            case COULE -> {
                 if (partieJeu.partieTerminee()) {
                     sons.jouerVictoire();
                 } else {
                     sons.jouerCoule();
                 }
             }
-            default -> {}
+            default -> {
+            }
         }
     }
 

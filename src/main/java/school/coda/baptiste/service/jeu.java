@@ -1,7 +1,7 @@
 package school.coda.baptiste.service;
 
-import school.coda.baptiste.modele.joueur;
 import school.coda.baptiste.modele.ModeJeu;
+import school.coda.baptiste.modele.joueur;
 import school.coda.baptiste.modele.orientation;
 import school.coda.baptiste.modele.position;
 import school.coda.baptiste.modele.resultat;

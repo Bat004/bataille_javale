@@ -446,14 +446,14 @@ public class placement {
 
     private String styleToggle(boolean actif) {
         return "-fx-background-color: " + (actif ? "#0066cc" : "white") + ";" +
-                "-fx-text-fill: " + (actif ? "white" : "#0066cc") + ";" +
-                "-fx-border-color: " + (actif ? "#0066cc" : "#0066cc") + ";" +
-                "-fx-border-width: 2;" +
-                "-fx-border-radius: 6;" +
-                "-fx-background-radius: 6;" +
-                "-fx-font-size: 13px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-cursor: hand;";
+               "-fx-text-fill: " + (actif ? "white" : "#0066cc") + ";" +
+               "-fx-border-color: " + (actif ? "#0066cc" : "#0066cc") + ";" +
+               "-fx-border-width: 2;" +
+               "-fx-border-radius: 6;" +
+               "-fx-background-radius: 6;" +
+               "-fx-font-size: 13px;" +
+               "-fx-font-weight: bold;" +
+               "-fx-cursor: hand;";
     }
 
     private javafx.scene.shape.Line separateur() {

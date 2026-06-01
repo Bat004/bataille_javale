@@ -31,8 +31,8 @@ public class finpartie {
         Label resultat = new Label(joueurGagne ? "Victoire !" : "Défaite !");
         resultat.setStyle(
                 "-fx-font-size: 48px; -fx-font-weight: bold;" +
-                        "-fx-text-fill: " + (joueurGagne ? "#0066cc" : "#ff3333") + ";" +
-                        "-fx-font-family: 'Georgia', serif;"
+                "-fx-text-fill: " + (joueurGagne ? "#0066cc" : "#ff3333") + ";" +
+                "-fx-font-family: 'Georgia', serif;"
         );
 
         Label sousTitre = new Label(joueurGagne
@@ -52,12 +52,12 @@ public class finpartie {
         boutonMenu.setPrefHeight(48);
         boutonMenu.setStyle(
                 "-fx-background-color: #0066cc;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-cursor: hand;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,102,204,0.4), 6, 0.0, 0, 2);"
+                "-fx-text-fill: white;" +
+                "-fx-font-size: 14px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-background-radius: 8;" +
+                "-fx-cursor: hand;" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,102,204,0.4), 6, 0.0, 0, 2);"
         );
         boutonMenu.setOnAction(e -> {
             menu vueMenu = new menu(stage);
@@ -68,9 +68,9 @@ public class finpartie {
         centre.setAlignment(Pos.CENTER);
         centre.setStyle(
                 "-fx-background-color: white;" +
-                        "-fx-border-radius: 16;" +
-                        "-fx-background-radius: 16;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.0, 0, 5);"
+                "-fx-border-radius: 16;" +
+                "-fx-background-radius: 16;" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.0, 0, 5);"
         );
         centre.setPadding(new Insets(60, 80, 60, 80));
         VBox.setMargin(boutonMenu, new Insets(20, 0, 0, 0));

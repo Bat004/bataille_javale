@@ -28,23 +28,23 @@ public class menu {
         Label titre = new Label("⚓ Bataille Javale");
         titre.setStyle(
                 "-fx-font-size: 48px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #0066cc;" +
-                        "-fx-font-family: 'Georgia', serif;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0.0, 0, 3);"
+                "-fx-font-weight: bold;" +
+                "-fx-text-fill: #0066cc;" +
+                "-fx-font-family: 'Georgia', serif;" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0.0, 0, 3);"
         );
 
         Label sousTitre = new Label("Un jeu de stratégie naval classique");
         sousTitre.setStyle(
                 "-fx-font-size: 16px;" +
-                        "-fx-text-fill: #0066cc;" +
-                        "-fx-font-style: italic;"
+                "-fx-text-fill: #0066cc;" +
+                "-fx-font-style: italic;"
         );
 
         Label credits = new Label("Créé par Baptiste Josserand");
         credits.setStyle(
                 "-fx-font-size: 12px;" +
-                        "-fx-text-fill: rgba(0,102,204,0.7);"
+                "-fx-text-fill: rgba(0,102,204,0.7);"
         );
 
         Button boutonJouer = creerBouton("🎮 Mode Normal", true);
@@ -65,9 +65,9 @@ public class menu {
         centre.setAlignment(Pos.CENTER);
         centre.setStyle(
                 "-fx-background-color: rgba(255, 255, 255, 0.95);" +
-                        "-fx-border-radius: 16;" +
-                        "-fx-background-radius: 16;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.0, 0, 5);"
+                "-fx-border-radius: 16;" +
+                "-fx-background-radius: 16;" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.0, 0, 5);"
         );
         centre.setPadding(new Insets(60, 80, 60, 80));
         VBox.setMargin(boutonJouer, new Insets(20, 0, 0, 0));
@@ -103,24 +103,24 @@ public class menu {
         if (principal) {
             btn.setStyle(
                     "-fx-background-color: #0066cc;" +
-                            "-fx-text-fill: white;" +
-                            "-fx-font-size: 16px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-background-radius: 8;" +
-                            "-fx-cursor: hand;" +
-                            "-fx-effect: dropshadow(gaussian, rgba(0,102,204,0.4), 6, 0.0, 0, 2);"
+                    "-fx-text-fill: white;" +
+                    "-fx-font-size: 16px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-background-radius: 8;" +
+                    "-fx-cursor: hand;" +
+                    "-fx-effect: dropshadow(gaussian, rgba(0,102,204,0.4), 6, 0.0, 0, 2);"
             );
         } else {
             btn.setStyle(
                     "-fx-background-color: white;" +
-                            "-fx-text-fill: #0066cc;" +
-                            "-fx-font-size: 14px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-border-color: #0066cc;" +
-                            "-fx-border-width: 2;" +
-                            "-fx-border-radius: 8;" +
-                            "-fx-background-radius: 8;" +
-                            "-fx-cursor: hand;"
+                    "-fx-text-fill: #0066cc;" +
+                    "-fx-font-size: 14px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-border-color: #0066cc;" +
+                    "-fx-border-width: 2;" +
+                    "-fx-border-radius: 8;" +
+                    "-fx-background-radius: 8;" +
+                    "-fx-cursor: hand;"
             );
         }
         return btn;

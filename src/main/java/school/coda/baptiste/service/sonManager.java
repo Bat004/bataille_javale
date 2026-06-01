@@ -32,9 +32,9 @@ public class sonManager {
     }
 
     private void chargerSons() {
-        sonTouche   = chargerClip("sounds/tir.wav");
-        sonRate     = chargerClip("sounds/rate.wav");
-        sonCoule    = chargerClip("sounds/coule.wav");
+        sonTouche = chargerClip("sounds/tir.wav");
+        sonRate = chargerClip("sounds/rate.wav");
+        sonCoule = chargerClip("sounds/coule.wav");
         sonVictoire = chargerClip("sounds/victoire.wav");
         chargerMusique("sounds/musique.mp3");
     }
