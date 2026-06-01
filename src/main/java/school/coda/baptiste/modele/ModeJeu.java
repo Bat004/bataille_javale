@@ -4,6 +4,7 @@ package school.coda.baptiste.modele;
  * Énumération représentant les différents modes de jeu disponibles.
  */
 public enum ModeJeu {
+    // 👍 Bonne utilisation des champs des enum en Java
     NORMAL("Mode Normal", "Un tir par tour"),
     SALVE("Mode Salve", "Plusieurs tirs par tour");
 
