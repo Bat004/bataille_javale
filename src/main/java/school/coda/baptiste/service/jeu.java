@@ -78,6 +78,8 @@ public class jeu {
             return 1;
         } else {
             // Mode SALVE : le nombre de tirs = nombre de bateaux restants du joueur
+            // 🚨 Demeter law / 💩 Code smell : Feature envy
+            // Voir : https://refactoring.guru/fr/smells/feature-envy
             return joueurHumain.getGrilleOcean().getNombreBateauxRestants();
         }
     }
@@ -88,6 +90,7 @@ public class jeu {
             return 1;
         } else {
             // Mode SALVE : le nombre de tirs = nombre de bateaux restants de l'ordinateur
+            // 🚨 Demeter law / 💩 Code smell : Feature envy
             return joueurOrdinateur.getGrilleOcean().getNombreBateauxRestants();
         }
     }
@@ -128,6 +131,7 @@ public class jeu {
             return resultat.dejaTire();
         }
 
+        // 🚨 Demeter law / 💩 Code smell : Feature envy
         resultat resultatTir = joueurOrdinateur.getGrilleOcean().recevoirTir(cible);
         joueurHumain.enregistrerTir(cible, resultatTir);
 
